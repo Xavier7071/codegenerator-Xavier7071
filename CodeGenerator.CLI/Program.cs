@@ -1,2 +1,3 @@
-﻿Console.WriteLine("CLI tool using the CodeGenerator library!");
-Console.WriteLine("Done!");
+﻿using CodeGenerator;
+
+var generator = new Generator("salut");
