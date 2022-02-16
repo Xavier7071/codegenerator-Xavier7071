@@ -7,6 +7,7 @@ public class ArgumentsHandler
     private string[] _args;
     private string[] _filteredArgs;
 
+    // Toute refactor (diviser les parties des arguments + validations)
     public ArgumentsHandler(string[] args)
     {
         _args = args;
