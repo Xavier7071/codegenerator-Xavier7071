@@ -1,2 +1,4 @@
-﻿Console.WriteLine("CLI tool using the CodeGenerator library!");
-Console.WriteLine("Done!");
+﻿using CodeGenerator;
+
+//le file path du json icitte
+var generator = new Generator("salut");

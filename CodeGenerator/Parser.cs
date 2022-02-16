@@ -1,5 +1,6 @@
 ﻿namespace CodeGenerator;
 
-public class Class1
+public class Parser
 {
+    
 }
