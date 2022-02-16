@@ -1,4 +1,9 @@
-﻿using CodeGenerator;
+﻿namespace CodeGenerator.CLI;
 
-//le file path du json icitte
-var generator = new Generator("salut");
+public static class Program
+{
+    private static void Main(string[] args)
+    {
+        var generator = new Generator(args);
+    }
+}

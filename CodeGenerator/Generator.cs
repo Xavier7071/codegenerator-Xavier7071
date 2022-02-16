@@ -1,13 +1,17 @@
-﻿using System.Text.Json;
-
-namespace CodeGenerator;
+﻿namespace CodeGenerator;
 
 public class Generator
 {
-    public Generator(string jsonPath)
+    private readonly string[] _args;
+
+    public Generator(string[] args)
     {
-        var json = JsonSerializer.Deserialize<object>(jsonPath);
-        //fonction pour parse + valider avec erreurs
-        //test
+        _args = args;
+        StartGenerator();
+    }
+
+    private void StartGenerator()
+    {
+        var argumentsHandler = new ArgumentsHandler(_args);
     }
 }

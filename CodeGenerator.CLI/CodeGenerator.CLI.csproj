@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CodeGenerator\CodeGenerator.csproj" />
+        <ProjectReference Include="..\CodeGenerator\CodeGenerator.csproj"/>
     </ItemGroup>
 
 </Project>
