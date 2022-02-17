@@ -2,16 +2,13 @@
 
 public class Generator
 {
-    private readonly string[] _args;
-
     public Generator(string[] args)
     {
-        _args = args;
-        StartGenerator();
+        StartGenerator(args);
     }
 
-    private void StartGenerator()
+    private void StartGenerator(string[] args)
     {
-        var argumentsHandler = new ArgumentsHandler(_args);
+        var argumentsHandler = new ArgumentsHandler(args);
     }
 }
