@@ -45,7 +45,7 @@ public class ArgumentsHandler
                 if (!_args[i].Equals(arg)) continue;
                 if (_args[i].Equals("-v") || _args[i].Equals("--verbose"))
                 {
-                    _arguments.Add(new Argument(_args[i], null));
+                    AddArgument("-v", null);
                 }
                 else
                 {
@@ -53,7 +53,7 @@ public class ArgumentsHandler
                     ValidateCode(i);
                     if (!HasError)
                     {
-                        AddArgument(i);
+                        AddArgument(_args[i], _args[i + 1]);
                     }
                 }
             }
@@ -91,9 +91,9 @@ public class ArgumentsHandler
         }
     }
 
-    private void AddArgument(int i)
+    private void AddArgument(string key, string? value)
     {
-        _arguments.Add(new Argument(_args[i], _args[i] + 1));
+        _arguments.Add(new Argument(key, value));
     }
 
     private void ValidateMandatoryArguments()
