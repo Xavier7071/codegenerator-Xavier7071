@@ -40,20 +40,33 @@ public class ArgumentsHandler
     {
         for (var i = 0; i < _args.Length; i++)
         {
-            if (_args[i].Equals("-n") || _args[i].Equals("--name") || _args[i].Equals("-f") ||
-                _args[i].Equals("--file") || _args[i].Equals("-c") || _args[i].Equals("--code") ||
-                _args[i].Equals("-v") || _args[i].Equals("--verbose"))
+            foreach (var arg in _allArgs)
             {
-                ValidateArgument(i);
-            }
-            else if (_args[i].Equals("-v") || _args[i].Equals("verbose"))
-            {
-                ValidateCode(i);
-            }
+                if (_args[i].Equals(arg))
+                {
+                    if (_args[i].Equals("-n") || _args[i].Equals("--name") || _args[i].Equals("-f") ||
+                        _args[i].Equals("--file") || _args[i].Equals("-c") || _args[i].Equals("--code"))
+                    {
+                        ValidateArgument(i);
+                    }
 
-            if (!HasError)
-            {
-                AddArgument(i);
+                    if (_args[i].Equals("-c") || _args[i].Equals("--code"))
+                    {
+                        ValidateCode(i);
+                    }
+
+                    if (_args[i].Equals("-v") || _args[i].Equals("--verbose"))
+                    {
+                        _arguments.Add(new Argument(_args[i], null));
+                    }
+                    else
+                    {
+                        if (!HasError)
+                        {
+                            AddArgument(i);
+                        }
+                    }
+                }
             }
         }
     }
