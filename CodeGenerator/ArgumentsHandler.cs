@@ -42,29 +42,18 @@ public class ArgumentsHandler
         {
             foreach (var arg in _allArgs)
             {
-                if (_args[i].Equals(arg))
+                if (!_args[i].Equals(arg)) continue;
+                if (_args[i].Equals("-v") || _args[i].Equals("--verbose"))
                 {
-                    if (_args[i].Equals("-n") || _args[i].Equals("--name") || _args[i].Equals("-f") ||
-                        _args[i].Equals("--file") || _args[i].Equals("-c") || _args[i].Equals("--code"))
+                    _arguments.Add(new Argument(_args[i], null));
+                }
+                else
+                {
+                    ValidateArgument(i);
+                    ValidateCode(i);
+                    if (!HasError)
                     {
-                        ValidateArgument(i);
-                    }
-
-                    if (_args[i].Equals("-c") || _args[i].Equals("--code"))
-                    {
-                        ValidateCode(i);
-                    }
-
-                    if (_args[i].Equals("-v") || _args[i].Equals("--verbose"))
-                    {
-                        _arguments.Add(new Argument(_args[i], null));
-                    }
-                    else
-                    {
-                        if (!HasError)
-                        {
-                            AddArgument(i);
-                        }
+                        AddArgument(i);
                     }
                 }
             }
@@ -95,6 +84,7 @@ public class ArgumentsHandler
 
     private void ValidateCode(int i)
     {
+        if (!_args[i].Equals("-c") && !_args[i].Equals("--code")) return;
         if (!_args[i + 1].Equals("csharp"))
         {
             HasError = true;
