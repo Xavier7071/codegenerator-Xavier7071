@@ -84,7 +84,7 @@ public class ArgumentsHandler
 
     private void ValidateCode(int i)
     {
-        if (!_args[i].Equals("-c") && !_args[i].Equals("--code")) return;
+        if (!_args[i].Equals("-c") && !_args[i].Equals("--code") || HasError) return;
         if (!_args[i + 1].Equals("csharp"))
         {
             HasError = true;
