@@ -14,7 +14,7 @@ public class Generator
         {
             PrintError();
             PrintMandatoryParameters();
-            PrintOptionnalParameters();
+            PrintOptionalParameters();
         }
         else
         {
@@ -22,7 +22,7 @@ public class Generator
         }
     }
 
-    private void PrintError()
+    private static void PrintError()
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("ERREUR, veuillez entrer les paramètres de la ligne de commande de la bonne façon");
@@ -30,7 +30,7 @@ public class Generator
         Console.WriteLine("\nComment utiliser les paramètres de la ligne de commande ?");
     }
 
-    private void PrintMandatoryParameters()
+    private static void PrintMandatoryParameters()
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine("Paramètres obligatoires :");
@@ -39,7 +39,7 @@ public class Generator
         Console.WriteLine("-f, --file <json_file_name>");
     }
 
-    private void PrintOptionnalParameters()
+    private static void PrintOptionalParameters()
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine("Paramètres optionnels :");
