@@ -1,8 +1,8 @@
-using Xunit;
+﻿using Xunit;
 
 namespace CodeGenerator.Tests;
 
-public class UnitTest1
+public class ParserTests
 {
     [Fact]
     public void Test1()

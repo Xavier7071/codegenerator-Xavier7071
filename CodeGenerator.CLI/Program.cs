@@ -4,6 +4,6 @@ public static class Program
 {
     private static void Main(string[] args)
     {
-        var generatorManager = new GeneratorManager(args);
+        var unused = new GeneratorManager(args);
     }
 }
