@@ -2,4 +2,7 @@
 
 public class Generator
 {
+    public Generator(List<Argument> arguments)
+    {
+    }
 }

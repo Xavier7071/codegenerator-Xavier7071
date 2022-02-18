@@ -4,6 +4,7 @@ public class GeneratorManager
 {
     private Parser? _parser;
     private ArgumentsHandler? _argumentsHandler;
+    private Generator? _generator;
 
     public GeneratorManager(string[] args)
     {
@@ -41,6 +42,8 @@ public class GeneratorManager
 
     private void StartGenerator()
     {
+        _generator = new Generator(_argumentsHandler!.GetArguments);
+        // TODO: Le generator va return un string builder pis le gèrer à partir de là
     }
 
     private static void PrintArgumentsError()
