@@ -8,14 +8,10 @@ public class GeneratorManager
     public GeneratorManager(string[] args)
     {
         StartArgumentsHandler(args);
-        if (!_argumentsHandler!.HasError)
-        {
-            StartParser();
-            if (!_parser!.HasError)
-            {
-                StartGenerator();
-            }
-        }
+        if (_argumentsHandler!.HasError) return;
+        StartParser();
+        if (_parser!.HasError) return;
+        StartGenerator();
     }
 
     private void StartArgumentsHandler(string[] args)
