@@ -26,12 +26,12 @@ public class Generator
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("ERREUR, veuillez entrer les paramètres de la ligne de commande de la bonne façon");
-        Console.ForegroundColor = ConsoleColor.Blue;
-        Console.WriteLine("\nComment utiliser les paramètres de la ligne de commande ?");
     }
 
     private static void PrintMandatoryParameters()
     {
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.WriteLine("\nComment utiliser les paramètres de la ligne de commande ?");
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine("Paramètres obligatoires :");
         Console.ForegroundColor = ConsoleColor.White;
