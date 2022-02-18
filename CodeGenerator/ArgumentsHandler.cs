@@ -13,7 +13,8 @@ public class ArgumentsHandler
         StartArgumentsHandler();
     }
 
-    public bool HasError { get; set; }
+    public bool HasError { get; private set; }
+    public List<Argument> GetArguments => _arguments;
 
     private void StartArgumentsHandler()
     {

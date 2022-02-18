@@ -2,30 +2,58 @@
 
 public class Generator
 {
+    private Parser? _parser;
+    private ArgumentsHandler? _argumentsHandler;
+
     public Generator(string[] args)
     {
-        StartGenerator(args);
+        StartArgumentsHandler(args);
+        if (!_argumentsHandler!.HasError)
+        {
+            StartParser();
+        }
     }
 
-    private void StartGenerator(string[] args)
+    private void StartArgumentsHandler(string[] args)
     {
-        var argumentsHandler = new ArgumentsHandler(args);
-        if (argumentsHandler.HasError)
+        _argumentsHandler = new ArgumentsHandler(args);
+        if (_argumentsHandler.HasError)
         {
-            PrintError();
-            PrintMandatoryParameters();
-            PrintOptionalParameters();
-        }
-        else
-        {
-            
+            PrintArgumentsError();
         }
     }
 
-    private static void PrintError()
+    private void StartParser()
+    {
+        foreach (var argument in _argumentsHandler!.GetArguments)
+        {
+            if (argument.key.Equals("-f") || argument.key.Equals("--file"))
+            {
+                _parser = new Parser(argument.value!);
+            }
+        }
+
+        if (_parser!.HasError)
+        {
+            PrintParserError();
+        }
+    }
+
+    private static void PrintArgumentsError()
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("ERREUR, veuillez entrer les paramètres de la ligne de commande de la bonne façon");
+        PrintMandatoryParameters();
+        PrintOptionalParameters();
+    }
+
+    private static void PrintParserError()
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("ERREUR, le processus pour lire le fichier JSON a échoué");
+        Console.WriteLine("Veuillez vérifier l'existence du fichier et l'état du JSON");
+        PrintMandatoryParameters();
+        PrintOptionalParameters();
     }
 
     private static void PrintMandatoryParameters()
