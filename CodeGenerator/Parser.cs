@@ -4,7 +4,7 @@ namespace CodeGenerator;
 
 public class Parser
 {
-    private string _path;
+    private readonly string _path;
 
     public Parser(string argumentValue)
     {

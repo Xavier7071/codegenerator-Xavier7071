@@ -11,6 +11,10 @@ public class GeneratorManager
         if (!_argumentsHandler!.HasError)
         {
             StartParser();
+            if (!_parser!.HasError)
+            {
+                StartGenerator();
+            }
         }
     }
 
@@ -39,12 +43,15 @@ public class GeneratorManager
         }
     }
 
+    private void StartGenerator()
+    {
+    }
+
     private static void PrintArgumentsError()
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("ERREUR, veuillez entrer les paramètres de la ligne de commande de la bonne façon");
-        PrintMandatoryParameters();
-        PrintOptionalParameters();
+        PrintParameters();
     }
 
     private static void PrintParserError()
@@ -52,14 +59,19 @@ public class GeneratorManager
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("ERREUR, le processus pour lire le fichier JSON a échoué");
         Console.WriteLine("Veuillez vérifier l'existence du fichier et l'état du JSON");
+        PrintParameters();
+    }
+
+    private static void PrintParameters()
+    {
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.WriteLine("\nComment utiliser les paramètres de la ligne de commande ?");
         PrintMandatoryParameters();
         PrintOptionalParameters();
     }
 
     private static void PrintMandatoryParameters()
     {
-        Console.ForegroundColor = ConsoleColor.Blue;
-        Console.WriteLine("\nComment utiliser les paramètres de la ligne de commande ?");
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine("Paramètres obligatoires :");
         Console.ForegroundColor = ConsoleColor.White;

@@ -2,19 +2,18 @@
 
 public class ArgumentsHandler
 {
-    private string[] _args;
-    private string[] _allArgs = {"-n", "--name", "-f", "--file", "-c", "--code", "-v", "--verbose"};
-    private List<Argument> _arguments;
+    private readonly string[] _args;
+    private readonly string[] _allArgs = {"-n", "--name", "-f", "--file", "-c", "--code", "-v", "--verbose"};
 
     public ArgumentsHandler(string[] args)
     {
         _args = args;
-        _arguments = new List<Argument>();
+        GetArguments = new List<Argument>();
         StartArgumentsHandler();
     }
 
     public bool HasError { get; private set; }
-    public List<Argument> GetArguments => _arguments;
+    public List<Argument> GetArguments { get; }
 
     private void StartArgumentsHandler()
     {
@@ -86,14 +85,14 @@ public class ArgumentsHandler
 
     private void AddArgument(string key, string? value)
     {
-        _arguments.Add(new Argument(key, value));
+        GetArguments.Add(new Argument(key, value));
     }
 
     private void ValidateMandatoryArguments()
     {
         var hasName = false;
         var hasFile = false;
-        foreach (var argument in _arguments)
+        foreach (var argument in GetArguments)
         {
             switch (argument.key)
             {
