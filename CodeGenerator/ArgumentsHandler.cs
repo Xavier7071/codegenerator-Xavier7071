@@ -25,14 +25,6 @@ public class ArgumentsHandler
         {
             OrganizeArguments();
             ValidateMandatoryArguments();
-            if (HasError)
-            {
-                Console.WriteLine("erreur");
-            }
-            else
-            {
-                Console.WriteLine("toute est beau");
-            }
         }
     }
 
