@@ -20,4 +20,8 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CodeGenerator\CodeGenerator.csproj" />
+    </ItemGroup>
+
 </Project>
