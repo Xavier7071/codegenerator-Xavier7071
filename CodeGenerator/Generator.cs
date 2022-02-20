@@ -10,7 +10,9 @@ public class Generator
     public Generator(JsonElement jsonElement)
     {
         _stringBuilder = new StringBuilder();
+        _stringBuilder.Append("public partial class Object\n{");
         ReadJson(jsonElement);
+        _stringBuilder.Append('}');
         Console.WriteLine(_stringBuilder);
     }
 
@@ -22,6 +24,7 @@ public class Generator
             {
                 case "Object":
                     BuildObject(prop);
+                    BuildClass(prop);
                     ReadJson(prop.Value);
                     break;
                 case "Array":
@@ -37,30 +40,47 @@ public class Generator
     private void BuildObject(JsonProperty jsonObject)
     {
         var objectName = FirstCharToUpper(jsonObject.Name);
-        _stringBuilder.AppendLine($"[JsonProperty(\"{jsonObject.Name}\")]");
+        _stringBuilder.AppendLine($"\n[JsonProperty(\"{jsonObject.Name}\")]");
         _stringBuilder.Append($"public {objectName} {objectName} ");
-        _stringBuilder.AppendLine("{ get; set; }\n");
+        _stringBuilder.AppendLine("{ get; set; }");
+    }
+
+    private void BuildClass(JsonProperty jsonObject)
+    {
+        var objectName = FirstCharToUpper(jsonObject.Name);
+        _stringBuilder.AppendLine("}\n");
+        _stringBuilder.AppendLine($"public partial class {objectName}");
+        _stringBuilder.Append('{');
     }
 
     private void BuildArray(JsonProperty array)
     {
         var arrayName = FirstCharToUpper(array.Name);
         var arrayElement = array.Value.EnumerateArray().First();
-        _stringBuilder.AppendLine($"[JsonProperty(\"{array.Name}\")]");
-        _stringBuilder.Append(arrayElement.ValueKind.ToString().Equals("Object")
-            ? $"public List<{arrayName}> {arrayName} "
-            : $"public List<{arrayElement.ValueKind.ToString().ToLower()}> {arrayName} ");
-        _stringBuilder.AppendLine("{ get; set; }\n");
+        _stringBuilder.AppendLine($"\n[JsonProperty(\"{array.Name}\")]");
+        switch (arrayElement.ValueKind.ToString())
+        {
+            case "Object":
+                _stringBuilder.Append($"public List<{arrayName}> {arrayName} ");
+                break;
+            case "Number":
+                _stringBuilder.Append($"public List<long> {arrayName} ");
+                break;
+            default:
+                _stringBuilder.Append($"public List<{arrayElement.ValueKind.ToString().ToLower()}> {arrayName} ");
+                break;
+        }
+        _stringBuilder.AppendLine("{ get; set; }");
     }
 
     private void BuildProperty(JsonProperty jsonProperty)
     {
         var propertyName = FirstCharToUpper(jsonProperty.Name);
-        _stringBuilder.AppendLine($"[JsonProperty(\"{jsonProperty.Name}\")]");
+        _stringBuilder.AppendLine($"\n[JsonProperty(\"{jsonProperty.Name}\")]");
         _stringBuilder.Append(jsonProperty.Value.ValueKind.ToString().Equals("Number")
             ? $"public long {propertyName} "
             : $"public {jsonProperty.Value.ValueKind.ToString().ToLower()} {propertyName} ");
-        _stringBuilder.AppendLine("{ get; set; }\n");
+        _stringBuilder.AppendLine("{ get; set; }");
     }
 
     private static string FirstCharToUpper(string name)
