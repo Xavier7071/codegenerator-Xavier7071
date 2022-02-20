@@ -42,7 +42,7 @@ public class GeneratorManager
 
     private void StartGenerator()
     {
-        _generator = new Generator(_argumentsHandler!.GetArguments);
+        _generator = new Generator(_parser!.Root);
         // TODO: Le generator va return un string builder pis le gèrer à partir de là
     }
 

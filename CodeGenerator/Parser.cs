@@ -6,11 +6,11 @@ public class Parser
 {
     private readonly string _path;
 
-    public Parser(string argumentValue)
+    public Parser(string filePath)
     {
         _path =
             "C:/Users/xavie/OneDrive - Cegep de Sorel-Tracy/Session 4/POO III/codegenerator-Xavier7071/CodeGenerator/" +
-            argumentValue;
+            filePath;
         ValidateFile();
         if (!HasError)
         {

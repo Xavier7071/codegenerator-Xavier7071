@@ -5,5 +5,32 @@
     "Kurt Kobain",
     "Dave Grohl",
     "Krist Novoselic"
-  ]
+  ],
+  "testObject": {
+    "objectProperty1": 10,
+    "objectProperty2": "text",
+    "objectArray": [
+      1,
+      2,
+      3
+    ],
+    "objectArrayOfObject": [
+      {
+        "item": "Apple",
+        "quantity": 2
+      },
+      {
+        "item": "Raspberry",
+        "quantity": 1
+      },
+      {
+        "item": "Banana",
+        "quantity": 7
+      }
+    ],
+    "objectObject": {
+      "testField1": "I am a test field",
+      "testField2": 2
+    }
+  }
 }
