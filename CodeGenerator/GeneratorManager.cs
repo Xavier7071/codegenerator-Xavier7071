@@ -88,7 +88,7 @@ public class GeneratorManager
         Console.WriteLine("Si non présent, par défaut, le code sera généré en C#");
         Console.WriteLine("Langages offerts: csharp");
         Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("-f, --file <json_file_name>");
+        Console.WriteLine("-v, --verbose");
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.WriteLine("Si présent, affichera le code généré dans la console");
         Console.ForegroundColor = ConsoleColor.White;

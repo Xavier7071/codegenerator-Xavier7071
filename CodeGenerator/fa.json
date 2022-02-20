@@ -14,6 +14,10 @@
       2,
       3
     ],
+    "objectObject": {
+      "testField1": "I am a test field",
+      "testField2": 2
+    },
     "objectArrayOfObject": [
       {
         "item": "Apple",
@@ -27,10 +31,6 @@
         "item": "Banana",
         "quantity": 7
       }
-    ],
-    "objectObject": {
-      "testField1": "I am a test field",
-      "testField2": 2
-    }
+    ]
   }
 }

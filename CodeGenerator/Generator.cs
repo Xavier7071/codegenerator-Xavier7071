@@ -29,6 +29,7 @@ public class Generator
                     break;
                 case "Array":
                     BuildArray(prop);
+                    BuildArrayOfObjects(prop);
                     break;
                 default:
                     BuildProperty(prop);
@@ -71,6 +72,15 @@ public class Generator
                 break;
         }
         _stringBuilder.AppendLine("{ get; set; }");
+    }
+
+    private void BuildArrayOfObjects(JsonProperty array)
+    {
+        var arrayElement = array.Value.EnumerateArray().First();
+        if (arrayElement.ValueKind.ToString().Equals("Object"))
+        {
+            
+        }
     }
 
     private void BuildProperty(JsonProperty jsonProperty)
