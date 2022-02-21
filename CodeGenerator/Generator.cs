@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Text;
 using System.Text.Json;
 
 namespace CodeGenerator;
@@ -6,9 +7,11 @@ namespace CodeGenerator;
 public class Generator
 {
     private StringBuilder _stringBuilder;
+    private List<string> savedObjects;
 
     public Generator(JsonElement jsonElement)
     {
+        savedObjects = new List<string>();
         _stringBuilder = new StringBuilder();
         _stringBuilder.Append("public partial class Object\n{");
         ReadJson(jsonElement);
@@ -24,8 +27,7 @@ public class Generator
             {
                 case "Object":
                     BuildObject(prop);
-                    BuildClass(prop);
-                    ReadJson(prop.Value);
+                    savedObjects.Add(prop.Name);
                     break;
                 case "Array":
                     BuildArray(prop);
@@ -34,6 +36,25 @@ public class Generator
                 default:
                     BuildProperty(prop);
                     break;
+            }
+        }
+
+        CheckForOtherClasses(jsonElement);
+    }
+
+    private void CheckForOtherClasses(JsonElement jsonElement)
+    {
+        foreach (var savedObject in savedObjects)
+        {
+            foreach (var prop in jsonElement.EnumerateObject())
+            {
+                if (prop.Name.Equals(savedObject))
+                {
+                    savedObjects.Remove(savedObject);
+                    BuildClass(prop);
+                    ReadJson(prop.Value);
+                    return;
+                }
             }
         }
     }
@@ -71,6 +92,7 @@ public class Generator
                 _stringBuilder.Append($"public List<{arrayElement.ValueKind.ToString().ToLower()}> {arrayName} ");
                 break;
         }
+
         _stringBuilder.AppendLine("{ get; set; }");
     }
 
@@ -79,7 +101,6 @@ public class Generator
         var arrayElement = array.Value.EnumerateArray().First();
         if (arrayElement.ValueKind.ToString().Equals("Object"))
         {
-            
         }
     }
 
