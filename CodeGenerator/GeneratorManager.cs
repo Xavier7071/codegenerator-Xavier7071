@@ -40,8 +40,18 @@ public class GeneratorManager
 
     private void StartGenerator()
     {
-        _generator = new SwiftGenerator(_parser!.Root);
-        // TODO: Le generator va return un string builder pis le gèrer à partir de là
+        var arguments = _argumentsHandler!.GetArguments;
+        foreach (var argument in arguments.Where(argument => argument.Key.Equals("-c") || argument.Key.Equals("--code")))
+        {
+            if (argument.Value!.Equals("csharp"))
+            {
+                _generator = new CSharpGenerator(_parser!.Root);
+                return;
+            }
+            _generator = new SwiftGenerator(_parser!.Root);
+            return;
+        }
+        _generator = new CSharpGenerator(_parser!.Root);
     }
 
     private static void PrintArgumentsError()
@@ -84,7 +94,7 @@ public class GeneratorManager
         Console.WriteLine("-c, --code <lang_code>");
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.WriteLine("Si non présent, par défaut, le code sera généré en C#");
-        Console.WriteLine("Langages offerts: csharp");
+        Console.WriteLine("Langages offerts: csharp, swift");
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine("-v, --verbose");
         Console.ForegroundColor = ConsoleColor.Blue;
