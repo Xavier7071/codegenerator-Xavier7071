@@ -61,7 +61,7 @@ public class GeneratorManager
 
     private void GenerateFile()
     {
-        var unused = new FileGenerator(_generator!.StringBuilder, _argumentsHandler!.GetArguments);
+        var unused = new FileGenerator(_generator!.StringBuilder, GetArgumentsNames(), _argumentsHandler!.GetArguments);
     }
 
     private List<string> GetArgumentsNames()

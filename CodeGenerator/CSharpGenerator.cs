@@ -14,7 +14,8 @@ public class CSharpLanguageGenerator : LanguageGenerator
     {
         StringBuilder.AppendLine("namespace " + ArgumentNames![0]);
         StringBuilder.AppendLine("{");
-        StringBuilder.AppendLine("     using System;\n     using System.Collections.Generic;\n     using System.Globalization;\n     using Newtonsoft.Json;\n     using Newtonsoft.Json.Converters;\n");
+        StringBuilder.AppendLine(
+            "     using System;\n     using System.Collections.Generic;\n     using System.Globalization;\n     using Newtonsoft.Json;\n     using Newtonsoft.Json.Converters;\n");
         StringBuilder.Append($"     public partial class {ArgumentNames![1]}\n");
         StringBuilder.Append("     {");
     }
@@ -59,7 +60,8 @@ public class CSharpLanguageGenerator : LanguageGenerator
                 StringBuilder.Append($"         public List<long> {arrayName} ");
                 break;
             default:
-                StringBuilder.Append($"         public List<{arrayElement.ValueKind.ToString().ToLower()}> {arrayName} ");
+                StringBuilder.Append(
+                    $"         public List<{arrayElement.ValueKind.ToString().ToLower()}> {arrayName} ");
                 break;
         }
 
