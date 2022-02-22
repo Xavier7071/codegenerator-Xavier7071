@@ -8,9 +8,7 @@ public class Parser
 
     public Parser(string filePath)
     {
-        _path =
-            "C:/Users/xavie/OneDrive - Cegep de Sorel-Tracy/Session 4/POO III/codegenerator-Xavier7071/CodeGenerator/" +
-            filePath;
+        _path = filePath;
         ValidateFile();
         if (!HasError)
         {
