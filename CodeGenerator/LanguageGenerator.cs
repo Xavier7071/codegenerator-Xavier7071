@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace CodeGenerator;
 
-public abstract class Generator
+public abstract class LanguageGenerator
 {
     protected abstract void BuildObject(JsonProperty jsonObject);
     protected abstract void BuildClass(JsonProperty jsonObject);
@@ -14,7 +14,7 @@ public abstract class Generator
     private readonly List<string> _savedObjects;
     private JsonElement _savedJsonElement;
 
-    protected Generator()
+    protected LanguageGenerator()
     {
         _savedObjects = new List<string>();
         StringBuilder = new StringBuilder();

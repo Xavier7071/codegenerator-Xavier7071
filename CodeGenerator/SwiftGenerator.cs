@@ -2,9 +2,9 @@
 
 namespace CodeGenerator;
 
-public class SwiftGenerator : Generator
+public class SwiftLanguageGenerator : LanguageGenerator
 {
-    public SwiftGenerator(JsonElement jsonElement)
+    public SwiftLanguageGenerator(JsonElement jsonElement)
     {
         StartGenerator(jsonElement, "struct MyClass: Codable {\n");
         Console.WriteLine(StringBuilder);

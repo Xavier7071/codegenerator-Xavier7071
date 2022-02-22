@@ -2,9 +2,9 @@
 
 namespace CodeGenerator;
 
-public class CSharpGenerator : Generator
+public class CSharpLanguageGenerator : LanguageGenerator
 {
-    public CSharpGenerator(JsonElement jsonElement)
+    public CSharpLanguageGenerator(JsonElement jsonElement)
     {
         StartGenerator(jsonElement, "public partial MyClass Object\n{");
         Console.WriteLine(StringBuilder);

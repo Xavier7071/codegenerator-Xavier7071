@@ -4,7 +4,7 @@ public class GeneratorManager
 {
     private Parser? _parser;
     private ArgumentsHandler? _argumentsHandler;
-    private Generator? _generator;
+    private LanguageGenerator? _generator;
 
     public GeneratorManager(string[] args)
     {
@@ -45,13 +45,13 @@ public class GeneratorManager
         {
             if (argument.Value!.Equals("csharp"))
             {
-                _generator = new CSharpGenerator(_parser!.Root);
+                _generator = new CSharpLanguageGenerator(_parser!.Root);
                 return;
             }
-            _generator = new SwiftGenerator(_parser!.Root);
+            _generator = new SwiftLanguageGenerator(_parser!.Root);
             return;
         }
-        _generator = new CSharpGenerator(_parser!.Root);
+        _generator = new CSharpLanguageGenerator(_parser!.Root);
     }
 
     private static void PrintArgumentsError()
