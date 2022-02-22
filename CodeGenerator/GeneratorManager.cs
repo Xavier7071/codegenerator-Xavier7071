@@ -41,16 +41,19 @@ public class GeneratorManager
     private void StartGenerator()
     {
         var arguments = _argumentsHandler!.GetArguments;
-        foreach (var argument in arguments.Where(argument => argument.Key.Equals("-c") || argument.Key.Equals("--code")))
+        foreach (var argument in
+                 arguments.Where(argument => argument.Key.Equals("-c") || argument.Key.Equals("--code")))
         {
             if (argument.Value!.Equals("csharp"))
             {
                 _generator = new CSharpLanguageGenerator(_parser!.Root);
                 return;
             }
+
             _generator = new SwiftLanguageGenerator(_parser!.Root);
             return;
         }
+
         _generator = new CSharpLanguageGenerator(_parser!.Root);
     }
 

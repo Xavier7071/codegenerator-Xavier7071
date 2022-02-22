@@ -7,7 +7,6 @@ public class CSharpLanguageGenerator : LanguageGenerator
     public CSharpLanguageGenerator(JsonElement jsonElement)
     {
         StartGenerator(jsonElement, "public partial MyClass Object\n{");
-        Console.WriteLine(StringBuilder);
     }
 
     protected override void BuildObject(JsonProperty jsonObject)

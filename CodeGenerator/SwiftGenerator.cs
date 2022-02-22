@@ -7,7 +7,6 @@ public class SwiftLanguageGenerator : LanguageGenerator
     public SwiftLanguageGenerator(JsonElement jsonElement)
     {
         StartGenerator(jsonElement, "struct MyClass: Codable {\n");
-        Console.WriteLine(StringBuilder);
     }
 
     protected override void BuildObject(JsonProperty jsonObject)
