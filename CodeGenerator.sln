@@ -6,11 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator.CLI", "CodeGe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator.Tests", "CodeGenerator.Tests\CodeGenerator.Tests.csproj", "{9440CDA2-088F-4DBD-B17B-CE758A2DB161}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{FDCBA86F-840E-4D53-B79B-1AFBC44D463E}"
-	ProjectSection(SolutionItems) = preProject
-		MissionP01-Generateur_de_code.pdf = MissionP01-Generateur_de_code.pdf
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
