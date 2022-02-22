@@ -20,9 +20,7 @@ public class FileGenerator
     private void HandleVerbose()
     {
         foreach (var unused in _arguments.Where(argument => argument.Key.Equals("-v")))
-        {
             Terminal.PrintFile(_stringBuilder.ToString());
-        }
     }
 
     private void CreateFile()

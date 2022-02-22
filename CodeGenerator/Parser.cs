@@ -10,10 +10,7 @@ public class Parser
     {
         _path = filePath;
         ValidateFile();
-        if (!HasError)
-        {
-            ParseJson();
-        }
+        if (!HasError) ParseJson();
     }
 
     public bool HasError { get; private set; }

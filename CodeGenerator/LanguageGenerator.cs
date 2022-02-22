@@ -5,23 +5,23 @@ namespace CodeGenerator;
 
 public abstract class LanguageGenerator
 {
-    protected abstract void BuildHeader();
-    protected abstract void BuildObject(JsonProperty jsonObject);
-    protected abstract void BuildClass(JsonProperty jsonObject);
-    protected abstract void BuildProperty(JsonProperty jsonProperty);
-    protected abstract void BuildArray(JsonProperty array);
-    protected abstract void BuildFooter();
-
-    public StringBuilder StringBuilder { get; }
-    protected List<string>? ArgumentNames;
     private readonly List<string> _savedObjects;
     private JsonElement _savedJsonElement;
+    protected List<string>? ArgumentNames;
 
     protected LanguageGenerator()
     {
         _savedObjects = new List<string>();
         StringBuilder = new StringBuilder();
     }
+
+    public StringBuilder StringBuilder { get; }
+    protected abstract void BuildHeader();
+    protected abstract void BuildObject(JsonProperty jsonObject);
+    protected abstract void BuildClass(JsonProperty jsonObject);
+    protected abstract void BuildProperty(JsonProperty jsonProperty);
+    protected abstract void BuildArray(JsonProperty array);
+    protected abstract void BuildFooter();
 
     protected void StartGenerator(JsonElement jsonElement)
     {
@@ -39,10 +39,7 @@ public abstract class LanguageGenerator
     private void ReadJson(JsonElement jsonElement)
     {
         var props = new List<string>();
-        if (_savedObjects.Count == 0)
-        {
-            _savedJsonElement = jsonElement;
-        }
+        if (_savedObjects.Count == 0) _savedJsonElement = jsonElement;
 
         foreach (var prop in jsonElement.EnumerateObject().Where(prop => !props.Contains(prop.Name)))
         {
@@ -74,13 +71,11 @@ public abstract class LanguageGenerator
     private void CheckForOtherClasses()
     {
         foreach (var savedObject in _savedObjects)
+        foreach (var prop in _savedJsonElement.EnumerateObject().Where(prop => savedObject.Equals(prop.Name)))
         {
-            foreach (var prop in _savedJsonElement.EnumerateObject().Where(prop => savedObject.Equals(prop.Name)))
-            {
-                _savedObjects.Remove(savedObject);
-                BuildNewClass(prop);
-                return;
-            }
+            _savedObjects.Remove(savedObject);
+            BuildNewClass(prop);
+            return;
         }
     }
 
@@ -93,9 +88,6 @@ public abstract class LanguageGenerator
     private void BuildArrayOfObjects(JsonProperty array)
     {
         var arrayElement = array.Value.EnumerateArray().First();
-        if (arrayElement.ValueKind.ToString().Equals("Object"))
-        {
-            _savedObjects.Add(array.Name);
-        }
+        if (arrayElement.ValueKind.ToString().Equals("Object")) _savedObjects.Add(array.Name);
     }
 }

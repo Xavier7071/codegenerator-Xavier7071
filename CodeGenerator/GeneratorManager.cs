@@ -2,9 +2,9 @@
 
 public class GeneratorManager
 {
-    private Parser? _parser;
     private ArgumentsHandler? _argumentsHandler;
     private LanguageGenerator? _generator;
+    private Parser? _parser;
 
     public GeneratorManager(string[] args)
     {
@@ -19,24 +19,16 @@ public class GeneratorManager
     private void StartArgumentsHandler(string[] args)
     {
         _argumentsHandler = new ArgumentsHandler(args);
-        if (_argumentsHandler.HasError)
-        {
-            Terminal.PrintArgumentsError();
-        }
+        if (_argumentsHandler.HasError) Terminal.PrintArgumentsError();
     }
 
     private void StartParser()
     {
         foreach (var argument in _argumentsHandler!.GetArguments.Where(argument =>
                      argument.Key.Equals("-f") || argument.Key.Equals("--file")))
-        {
             _parser = new Parser(argument.Value!);
-        }
 
-        if (_parser!.HasError)
-        {
-            Terminal.PrintParserError();
-        }
+        if (_parser!.HasError) Terminal.PrintParserError();
     }
 
     private void StartGenerator()
@@ -69,18 +61,12 @@ public class GeneratorManager
         var arguments = _argumentsHandler!.GetArguments;
         foreach (var argument in
                  arguments.Where(argument => argument.Key.Equals("-n") || argument.Key.Equals("--name")))
-        {
             for (var i = argument.Value!.Length - 1; i > 0; i--)
-            {
                 if (argument.Value[i].Equals('.'))
-                {
                     return new List<string>
                     {
                         argument.Value[..i], argument.Value[(i + 1)..]
                     };
-                }
-            }
-        }
 
         return null!;
     }
