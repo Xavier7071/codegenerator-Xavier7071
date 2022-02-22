@@ -21,7 +21,7 @@ public class FileGenerator
     {
         foreach (var unused in _arguments.Where(argument => argument.Key.Equals("-v")))
         {
-            Console.WriteLine(_stringBuilder);
+            Terminal.PrintFile(_stringBuilder.ToString());
         }
     }
 
