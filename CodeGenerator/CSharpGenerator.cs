@@ -6,7 +6,7 @@ public class CSharpGenerator : Generator
 {
     public CSharpGenerator(JsonElement jsonElement)
     {
-        StartGenerator(jsonElement, "public partial class Object\n{");
+        StartGenerator(jsonElement, "public partial MyClass Object\n{");
         Console.WriteLine(StringBuilder);
     }
 

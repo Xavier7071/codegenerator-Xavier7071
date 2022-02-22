@@ -26,7 +26,8 @@ public class GeneratorManager
 
     private void StartParser()
     {
-        foreach (var argument in _argumentsHandler!.GetArguments.Where(argument => argument.Key.Equals("-f") || argument.Key.Equals("--file")))
+        foreach (var argument in _argumentsHandler!.GetArguments.Where(argument =>
+                     argument.Key.Equals("-f") || argument.Key.Equals("--file")))
         {
             _parser = new Parser(argument.Value!);
         }
@@ -39,7 +40,7 @@ public class GeneratorManager
 
     private void StartGenerator()
     {
-        _generator = new CSharpGenerator(_parser!.Root);
+        _generator = new SwiftGenerator(_parser!.Root);
         // TODO: Le generator va return un string builder pis le gèrer à partir de là
     }
 
