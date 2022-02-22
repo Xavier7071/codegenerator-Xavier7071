@@ -1,99 +1,90 @@
-﻿using System.Collections;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 
 namespace CodeGenerator;
 
-public class Generator
+public abstract class Generator
 {
-    private StringBuilder _stringBuilder;
-    private List<string> savedObjects;
+    protected abstract void BuildObject(JsonProperty jsonObject);
+    protected abstract void BuildClass(JsonProperty jsonObject);
+    protected abstract void BuildProperty(JsonProperty jsonProperty);
+    protected abstract void BuildArray(JsonProperty array);
 
-    public Generator(JsonElement jsonElement)
+    protected readonly StringBuilder StringBuilder;
+    private readonly List<string> _savedObjects;
+    private JsonElement _savedJsonElement;
+
+    protected Generator()
     {
-        savedObjects = new List<string>();
-        _stringBuilder = new StringBuilder();
-        _stringBuilder.Append("public partial class Object\n{");
-        ReadJson(jsonElement);
-        _stringBuilder.Append('}');
-        Console.WriteLine(_stringBuilder);
+        _savedObjects = new List<string>();
+        StringBuilder = new StringBuilder();
+    }
+
+    protected void StartGenerator(JsonElement jsonElement, string className)
+    {
+        _savedJsonElement = jsonElement;
+        StringBuilder.Append(className);
+        ReadJson(_savedJsonElement);
+        StringBuilder.Append('}');
+    }
+
+    protected static string FirstCharToUpper(string name)
+    {
+        return char.ToUpper(name[0]) + name[1..];
     }
 
     private void ReadJson(JsonElement jsonElement)
     {
-        foreach (var prop in jsonElement.EnumerateObject())
+        var props = new List<string>();
+        if (_savedObjects.Count == 0)
         {
-            switch (prop.Value.ValueKind.ToString())
-            {
-                case "Object":
-                    BuildObject(prop);
-                    savedObjects.Add(prop.Name);
-                    break;
-                case "Array":
-                    BuildArray(prop);
-                    BuildArrayOfObjects(prop);
-                    break;
-                default:
-                    BuildProperty(prop);
-                    break;
-            }
+            _savedJsonElement = jsonElement;
         }
 
-        CheckForOtherClasses(jsonElement);
-    }
-
-    private void CheckForOtherClasses(JsonElement jsonElement)
-    {
-        foreach (var savedObject in savedObjects)
+        foreach (var prop in jsonElement.EnumerateObject().Where(prop => !props.Contains(prop.Name)))
         {
-            foreach (var prop in jsonElement.EnumerateObject())
-            {
-                if (prop.Name.Equals(savedObject))
-                {
-                    savedObjects.Remove(savedObject);
-                    BuildClass(prop);
-                    ReadJson(prop.Value);
-                    return;
-                }
-            }
+            props.Add(prop.Name);
+            DeterminePropType(prop);
         }
+
+        CheckForOtherClasses();
     }
 
-    private void BuildObject(JsonProperty jsonObject)
+    private void DeterminePropType(JsonProperty prop)
     {
-        var objectName = FirstCharToUpper(jsonObject.Name);
-        _stringBuilder.AppendLine($"\n[JsonProperty(\"{jsonObject.Name}\")]");
-        _stringBuilder.Append($"public {objectName} {objectName} ");
-        _stringBuilder.AppendLine("{ get; set; }");
-    }
-
-    private void BuildClass(JsonProperty jsonObject)
-    {
-        var objectName = FirstCharToUpper(jsonObject.Name);
-        _stringBuilder.AppendLine("}\n");
-        _stringBuilder.AppendLine($"public partial class {objectName}");
-        _stringBuilder.Append('{');
-    }
-
-    private void BuildArray(JsonProperty array)
-    {
-        var arrayName = FirstCharToUpper(array.Name);
-        var arrayElement = array.Value.EnumerateArray().First();
-        _stringBuilder.AppendLine($"\n[JsonProperty(\"{array.Name}\")]");
-        switch (arrayElement.ValueKind.ToString())
+        switch (prop.Value.ValueKind.ToString())
         {
             case "Object":
-                _stringBuilder.Append($"public List<{arrayName}> {arrayName} ");
+                BuildObject(prop);
+                _savedObjects.Add(prop.Name);
                 break;
-            case "Number":
-                _stringBuilder.Append($"public List<long> {arrayName} ");
+            case "Array":
+                BuildArray(prop);
+                BuildArrayOfObjects(prop);
                 break;
             default:
-                _stringBuilder.Append($"public List<{arrayElement.ValueKind.ToString().ToLower()}> {arrayName} ");
+                BuildProperty(prop);
                 break;
         }
+    }
 
-        _stringBuilder.AppendLine("{ get; set; }");
+    private void CheckForOtherClasses()
+    {
+        foreach (var savedObject in _savedObjects)
+        {
+            foreach (var prop in _savedJsonElement.EnumerateObject().Where(prop => savedObject.Equals(prop.Name)))
+            {
+                _savedObjects.Remove(savedObject);
+                BuildNewClass(prop);
+                return;
+            }
+        }
+    }
+
+    private void BuildNewClass(JsonProperty prop)
+    {
+        BuildClass(prop);
+        ReadJson(prop.Value.ValueKind.ToString().Equals("Array") ? prop.Value.EnumerateArray().First() : prop.Value);
     }
 
     private void BuildArrayOfObjects(JsonProperty array)
@@ -101,21 +92,7 @@ public class Generator
         var arrayElement = array.Value.EnumerateArray().First();
         if (arrayElement.ValueKind.ToString().Equals("Object"))
         {
+            _savedObjects.Add(array.Name);
         }
-    }
-
-    private void BuildProperty(JsonProperty jsonProperty)
-    {
-        var propertyName = FirstCharToUpper(jsonProperty.Name);
-        _stringBuilder.AppendLine($"\n[JsonProperty(\"{jsonProperty.Name}\")]");
-        _stringBuilder.Append(jsonProperty.Value.ValueKind.ToString().Equals("Number")
-            ? $"public long {propertyName} "
-            : $"public {jsonProperty.Value.ValueKind.ToString().ToLower()} {propertyName} ");
-        _stringBuilder.AppendLine("{ get; set; }");
-    }
-
-    private static string FirstCharToUpper(string name)
-    {
-        return char.ToUpper(name[0]) + name[1..];
     }
 }

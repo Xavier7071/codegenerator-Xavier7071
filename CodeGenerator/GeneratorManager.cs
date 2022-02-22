@@ -4,7 +4,7 @@ public class GeneratorManager
 {
     private Parser? _parser;
     private ArgumentsHandler? _argumentsHandler;
-    private Generator? _generator;
+    private CSharpGenerator? _generator;
 
     public GeneratorManager(string[] args)
     {
@@ -42,7 +42,7 @@ public class GeneratorManager
 
     private void StartGenerator()
     {
-        _generator = new Generator(_parser!.Root);
+        _generator = new CSharpGenerator(_parser!.Root);
         // TODO: Le generator va return un string builder pis le gèrer à partir de là
     }
 

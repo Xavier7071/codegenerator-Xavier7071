@@ -18,6 +18,14 @@
       "testField1": "I am a test field",
       "testField2": 2
     },
+    "objectObjectTest": {
+      "salut": "I am a test field",
+      "testField2": 2
+    },
+    "objectObjectTest": {
+      "salut": "I am a test field",
+      "salut": 2
+    },
     "objectArrayOfObject": [
       {
         "item": "Apple",
