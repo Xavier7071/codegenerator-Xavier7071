@@ -94,7 +94,7 @@ public class ArgumentsHandler
         var hasFile = false;
         foreach (var argument in GetArguments)
         {
-            switch (argument.key)
+            switch (argument.Key)
             {
                 case "-n":
                 case "--name":

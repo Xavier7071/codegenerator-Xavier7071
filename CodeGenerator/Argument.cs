@@ -2,12 +2,12 @@
 
 public class Argument
 {
-    public string key;
-    public string? value;
+    public readonly string Key;
+    public readonly string? Value;
 
     public Argument(string key, string? value)
     {
-        this.key = key;
-        this.value = value;
+        Key = key;
+        Value = value;
     }
 }

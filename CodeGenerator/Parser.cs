@@ -28,7 +28,7 @@ public class Parser
             var text = File.ReadAllText(_path);
             JsonDocument.Parse(text);
         }
-        catch (Exception exception)
+        catch (Exception)
         {
             HasError = true;
         }

@@ -4,7 +4,7 @@ public class GeneratorManager
 {
     private Parser? _parser;
     private ArgumentsHandler? _argumentsHandler;
-    private CSharpGenerator? _generator;
+    private Generator? _generator;
 
     public GeneratorManager(string[] args)
     {
@@ -26,12 +26,9 @@ public class GeneratorManager
 
     private void StartParser()
     {
-        foreach (var argument in _argumentsHandler!.GetArguments)
+        foreach (var argument in _argumentsHandler!.GetArguments.Where(argument => argument.Key.Equals("-f") || argument.Key.Equals("--file")))
         {
-            if (argument.key.Equals("-f") || argument.key.Equals("--file"))
-            {
-                _parser = new Parser(argument.value!);
-            }
+            _parser = new Parser(argument.Value!);
         }
 
         if (_parser!.HasError)
