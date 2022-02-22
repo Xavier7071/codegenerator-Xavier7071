@@ -9,7 +9,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{FDCBA86F-840E-4D53-B79B-1AFBC44D463E}"
 	ProjectSection(SolutionItems) = preProject
 		MissionP01-Generateur_de_code.pdf = MissionP01-Generateur_de_code.pdf
-		Notes.txt = Notes.txt
 	EndProjectSection
 EndProject
 Global
