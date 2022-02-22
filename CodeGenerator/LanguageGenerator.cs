@@ -5,12 +5,15 @@ namespace CodeGenerator;
 
 public abstract class LanguageGenerator
 {
+    protected abstract void BuildHeader();
     protected abstract void BuildObject(JsonProperty jsonObject);
     protected abstract void BuildClass(JsonProperty jsonObject);
     protected abstract void BuildProperty(JsonProperty jsonProperty);
     protected abstract void BuildArray(JsonProperty array);
+    protected abstract void BuildFooter();
 
-    protected readonly StringBuilder StringBuilder;
+    public StringBuilder StringBuilder { get; }
+    protected List<string>? ArgumentNames;
     private readonly List<string> _savedObjects;
     private JsonElement _savedJsonElement;
 
@@ -20,12 +23,12 @@ public abstract class LanguageGenerator
         StringBuilder = new StringBuilder();
     }
 
-    protected void StartGenerator(JsonElement jsonElement, string className)
+    protected void StartGenerator(JsonElement jsonElement)
     {
         _savedJsonElement = jsonElement;
-        StringBuilder.Append(className);
+        BuildHeader();
         ReadJson(_savedJsonElement);
-        StringBuilder.Append('}');
+        BuildFooter();
     }
 
     protected static string FirstCharToUpper(string name)

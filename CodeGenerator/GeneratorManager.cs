@@ -13,6 +13,7 @@ public class GeneratorManager
         StartParser();
         if (_parser!.HasError) return;
         StartGenerator();
+        GenerateFile();
     }
 
     private void StartArgumentsHandler(string[] args)
@@ -40,21 +41,48 @@ public class GeneratorManager
 
     private void StartGenerator()
     {
+        var classNames = GetArgumentsNames();
         var arguments = _argumentsHandler!.GetArguments;
         foreach (var argument in
                  arguments.Where(argument => argument.Key.Equals("-c") || argument.Key.Equals("--code")))
         {
             if (argument.Value!.Equals("csharp"))
             {
-                _generator = new CSharpLanguageGenerator(_parser!.Root);
+                _generator = new CSharpLanguageGenerator(_parser!.Root, classNames);
                 return;
             }
 
-            _generator = new SwiftLanguageGenerator(_parser!.Root);
+            _generator = new SwiftLanguageGenerator(_parser!.Root, classNames);
             return;
         }
 
-        _generator = new CSharpLanguageGenerator(_parser!.Root);
+        _generator = new CSharpLanguageGenerator(_parser!.Root, classNames);
+    }
+
+    private void GenerateFile()
+    {
+        var unused = new FileGenerator(_generator!.StringBuilder, _argumentsHandler!.GetArguments);
+    }
+
+    private List<string> GetArgumentsNames()
+    {
+        var arguments = _argumentsHandler!.GetArguments;
+        foreach (var argument in
+                 arguments.Where(argument => argument.Key.Equals("-n") || argument.Key.Equals("--name")))
+        {
+            for (var i = argument.Value!.Length - 1; i > 0; i--)
+            {
+                if (argument.Value[i].Equals('.'))
+                {
+                    return new List<string>
+                    {
+                        argument.Value[..i], argument.Value[(i + 1)..]
+                    };
+                }
+            }
+        }
+
+        return null!;
     }
 
     private static void PrintArgumentsError()

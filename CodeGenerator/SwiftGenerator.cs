@@ -4,9 +4,17 @@ namespace CodeGenerator;
 
 public class SwiftLanguageGenerator : LanguageGenerator
 {
-    public SwiftLanguageGenerator(JsonElement jsonElement)
+    public SwiftLanguageGenerator(JsonElement jsonElement, List<string> argumentNames)
     {
-        StartGenerator(jsonElement, "struct MyClass: Codable {\n");
+        ArgumentNames = argumentNames;
+        StartGenerator(jsonElement);
+    }
+
+    protected override void BuildHeader()
+    {
+        StringBuilder.AppendLine("import Foundation\n");
+        StringBuilder.AppendLine($"struct {ArgumentNames![1]}: Codable ");
+        StringBuilder.Append("{\n");
     }
 
     protected override void BuildObject(JsonProperty jsonObject)
@@ -46,5 +54,10 @@ public class SwiftLanguageGenerator : LanguageGenerator
                 StringBuilder.AppendLine($"    let {array.Name}: [{arrayElement.ValueKind.ToString()}]");
                 break;
         }
+    }
+
+    protected override void BuildFooter()
+    {
+        StringBuilder.Append('}');
     }
 }

@@ -42,6 +42,7 @@ public class ArgumentsHandler
                 else
                 {
                     ValidateArgument(i);
+                    ValidateName(i);
                     ValidateCode(i);
                     if (!HasError)
                     {
@@ -71,6 +72,15 @@ public class ArgumentsHandler
                     HasError = true;
                 }
             }
+        }
+    }
+
+    private void ValidateName(int i)
+    {
+        if (!_args[i].Equals("-n") && !_args[i].Equals("--name") || HasError) return;
+        if (!_args[i + 1].Contains('.'))
+        {
+            HasError = true;
         }
     }
 
