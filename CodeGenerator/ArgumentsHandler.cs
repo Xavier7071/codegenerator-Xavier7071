@@ -31,6 +31,7 @@ public class ArgumentsHandler
     private void OrganizeArguments()
     {
         for (var i = 0; i < _args.Length; i++)
+        {
             foreach (var arg in _allArgs)
             {
                 if (!_args[i].Equals(arg)) continue;
@@ -43,33 +44,53 @@ public class ArgumentsHandler
                     ValidateArgument(i);
                     ValidateName(i);
                     ValidateCode(i);
-                    if (!HasError) AddArgument(_args[i], _args[i + 1]);
+                    if (!HasError)
+                    {
+                        AddArgument(_args[i], _args[i + 1]);
+                    }
                 }
             }
+        }
     }
 
     private void ValidateArgument(int i)
     {
         if (_args.Length <= i + 1)
+        {
             HasError = true;
+        }
         else if (_args[i + 1].Equals(null))
+        {
             HasError = true;
+        }
         else
+        {
             foreach (var arg in _allArgs)
+            {
                 if (_args[i + 1].Equals(arg))
+                {
                     HasError = true;
+                }
+            }
+        }
     }
 
     private void ValidateName(int i)
     {
         if (!_args[i].Equals("-n") && !_args[i].Equals("--name") || HasError) return;
-        if (!_args[i + 1].Contains('.')) HasError = true;
+        if (!_args[i + 1].Contains('.'))
+        {
+            HasError = true;
+        }
     }
 
     private void ValidateCode(int i)
     {
         if (!_args[i].Equals("-c") && !_args[i].Equals("--code") || HasError) return;
-        if (!_args[i + 1].Equals("csharp") && !_args[i + 1].Equals("swift")) HasError = true;
+        if (!_args[i + 1].Equals("csharp") && !_args[i + 1].Equals("swift"))
+        {
+            HasError = true;
+        }
     }
 
     private void AddArgument(string key, string? value)
@@ -82,6 +103,7 @@ public class ArgumentsHandler
         var hasName = false;
         var hasFile = false;
         foreach (var argument in GetArguments)
+        {
             switch (argument.Key)
             {
                 case "-n":
@@ -93,7 +115,11 @@ public class ArgumentsHandler
                     hasFile = true;
                     break;
             }
+        }
 
-        if (!hasName || !hasFile) HasError = true;
+        if (!hasName || !hasFile)
+        {
+            HasError = true;
+        }
     }
 }

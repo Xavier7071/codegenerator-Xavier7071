@@ -39,7 +39,10 @@ public abstract class LanguageGenerator
     private void ReadJson(JsonElement jsonElement)
     {
         var props = new List<string>();
-        if (_savedObjects.Count == 0) _savedJsonElement = jsonElement;
+        if (_savedObjects.Count == 0)
+        {
+            _savedJsonElement = jsonElement;
+        }
 
         foreach (var prop in jsonElement.EnumerateObject().Where(prop => !props.Contains(prop.Name)))
         {
@@ -71,11 +74,13 @@ public abstract class LanguageGenerator
     private void CheckForOtherClasses()
     {
         foreach (var savedObject in _savedObjects)
-        foreach (var prop in _savedJsonElement.EnumerateObject().Where(prop => savedObject.Equals(prop.Name)))
         {
-            _savedObjects.Remove(savedObject);
-            BuildNewClass(prop);
-            return;
+            foreach (var prop in _savedJsonElement.EnumerateObject().Where(prop => savedObject.Equals(prop.Name)))
+            {
+                _savedObjects.Remove(savedObject);
+                BuildNewClass(prop);
+                return;
+            }
         }
     }
 
