@@ -55,13 +55,13 @@ public abstract class LanguageGenerator
 
     private void DeterminePropType(JsonProperty prop)
     {
-        switch (prop.Value.ValueKind.ToString())
+        switch (prop.Value.ValueKind)
         {
-            case "Object":
+            case JsonValueKind.Object:
                 BuildObject(prop);
                 _savedObjects.Add(prop.Name);
                 break;
-            case "Array":
+            case JsonValueKind.Array:
                 BuildArray(prop);
                 BuildArrayOfObjects(prop);
                 break;
@@ -93,6 +93,6 @@ public abstract class LanguageGenerator
     private void BuildArrayOfObjects(JsonProperty array)
     {
         var arrayElement = array.Value.EnumerateArray().First();
-        if (arrayElement.ValueKind.ToString().Equals("Object")) _savedObjects.Add(array.Name);
+        if (arrayElement.ValueKind == JsonValueKind.Object) _savedObjects.Add(array.Name);
     }
 }

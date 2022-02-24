@@ -33,7 +33,7 @@ public class SwiftLanguageGenerator : LanguageGenerator
 
     protected override void BuildProperty(JsonProperty jsonProperty)
     {
-        StringBuilder.AppendLine(jsonProperty.Value.ValueKind.ToString().Equals("Number")
+        StringBuilder.AppendLine(jsonProperty.Value.ValueKind == JsonValueKind.Number
             ? $"    let {jsonProperty.Name}: Int"
             : $"    let {jsonProperty.Name}: {jsonProperty.Value.ValueKind.ToString()}");
     }
@@ -42,12 +42,12 @@ public class SwiftLanguageGenerator : LanguageGenerator
     {
         var arrayName = FirstCharToUpper(array.Name);
         var arrayElement = array.Value.EnumerateArray().First();
-        switch (arrayElement.ValueKind.ToString())
+        switch (arrayElement.ValueKind)
         {
-            case "Object":
+            case JsonValueKind.Object:
                 StringBuilder.AppendLine($"    let {array.Name}: [{arrayName}]");
                 break;
-            case "Number":
+            case JsonValueKind.Number:
                 StringBuilder.AppendLine($"    let {array.Name}: [Int]");
                 break;
             default:

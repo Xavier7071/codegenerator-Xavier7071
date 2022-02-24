@@ -40,7 +40,7 @@ public class CSharpLanguageGenerator : LanguageGenerator
     {
         var propertyName = FirstCharToUpper(jsonProperty.Name);
         StringBuilder.AppendLine($"\n         [JsonProperty(\"{jsonProperty.Name}\")]");
-        StringBuilder.Append(jsonProperty.Value.ValueKind.ToString().Equals("Number")
+        StringBuilder.Append(jsonProperty.Value.ValueKind == JsonValueKind.Number
             ? $"         public long {propertyName} "
             : $"         public {jsonProperty.Value.ValueKind.ToString().ToLower()} {propertyName} ");
         StringBuilder.AppendLine("{ get; set; }");
@@ -51,12 +51,12 @@ public class CSharpLanguageGenerator : LanguageGenerator
         var arrayName = FirstCharToUpper(array.Name);
         var arrayElement = array.Value.EnumerateArray().First();
         StringBuilder.AppendLine($"\n         [JsonProperty(\"{array.Name}\")]");
-        switch (arrayElement.ValueKind.ToString())
+        switch (arrayElement.ValueKind)
         {
-            case "Object":
+            case JsonValueKind.Object:
                 StringBuilder.Append($"         public List<{arrayName}> {arrayName} ");
                 break;
-            case "Number":
+            case JsonValueKind.Number:
                 StringBuilder.Append($"         public List<long> {arrayName} ");
                 break;
             default:
